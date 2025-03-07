@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Syauqi Jaya</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container my-5">
+        <h2 class="text-center">Produk TOKO SYAUQI JAYA</h2>
+        <div class="text-center my-3">
+            <select id="categoryFilter" class="form-select w-50 mx-auto" onchange="filterProducts()">
+                <option value="all">Semua Kategori</option>
+                <option value="elektronik">Elektronik</option>
+                <option value="fashion">Fashion</option>
+                <option value="peralatan">Peralatan</option>
+            </select>
+        </div>
+        <div id="product-list" class="row mt-4"></div>
+    </div>
+    
+<script>
+const products = [
+    { id: 1, name: "Produk A", price: 100000, description: "Produk elektronik berkualitas tinggi", category: "elektronik", image: "baju 2.jpg" },
+    { id: 2, name: "Produk B", price: 150000, description: "Fashion terbaru untuk gaya modern", category: "fashion", image: "baju 1.jpg" },
+    { id: 3, name: "Produk C", price: 200000, description: "Peralatan rumah tangga yang praktis", category: "peralatan", image: "peralatan rt.jpg" },
+    { id: 4, name: "Produk D", price: 250000, description: "Gadget canggih dengan fitur terbaik", category: "elektronik", image: "hp 1.jpg" },
+    { id: 5, name: "Produk E", price: 300000, description: "Gadget canggih dengan fitur terbaik", category: "elektronik", image: "hp 3.jpg" }
+];
+
+        function renderProducts(filteredProducts = products) {
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.classList.add("col-md-4");
+                productCard.innerHTML = `
+                    <div class="card">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">${product.description}</p>
+                            <p class="card-text">Rp ${product.price.toLocaleString()}</p>
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">Beli Sekarang</button>
+                        </div>
+                    </div>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        function filterProducts() {
+            const selectedCategory = document.getElementById("categoryFilter").value;
+            const filteredProducts = selectedCategory === "all" ? products : products.filter(p => p.category === selectedCategory);
+            renderProducts(filteredProducts);
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            alert(`Anda menambahkan ${product.name} ke keranjang!`);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => renderProducts());
+    </script>
+</body>
+</html>
